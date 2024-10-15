@@ -126,3 +126,48 @@ FROM film f
          INNER JOIN film_category fc ON f.film_id = fc.film_id
          INNER JOIN category c ON fc.category_id = c.category_id
 WHERE f.title = 'ACADEMY DINOSAUR';
+
+# 10 Quelle est la durée moyenne d'un film ?
+SELECT AVG(length) AS "Durée moyenne d'un film"
+FROM film;
+
+# 11 Tous les acteurs qui ont joué dans un film pour famille ?
+SELECT DISTINCT a.first_name, a.last_name
+FROM actor a
+         INNER JOIN film_actor fa ON a.actor_id = fa.actor_id
+         INNER JOIN film f ON fa.film_id = f.film_id
+         INNER JOIN film_category fc ON f.film_id = fc.film_id
+         INNER JOIN category c ON fc.category_id = c.category_id
+WHERE c.name = 'Family';
+
+# 12 Quel est le nombre de clients par magasin ?
+SELECT s.store_id, COUNT(c.customer_id) as "Nombre de clients"
+FROM customer c
+         INNER JOIN store s ON c.store_id = s.store_id
+GROUP BY s.store_id;
+
+# 13 Quelle est la moyenne des ventes ?
+SELECT AVG(amount) as "Moyenne des ventes"
+FROM payment;
+
+# 14 Quelle est la moyenne de durée des films d'action ?
+
+SELECT AVG(f.length) as "Moyenne de durée des films d'action"
+FROM film f
+         INNER JOIN film_category fc on f.film_id = fc.film_id
+         INNER JOIN category c on fc.category_id = c.category_id
+WHERE c.name = 'Action';
+
+# 15 Quelle est la durée moyenne des films ayant le classement PG ?
+SELECT AVG(f.length) as "Durée moyenne des films ayant le classement PG"
+FROM film f
+         INNER JOIN film f2 on f.film_id = f2.film_id
+WHERE f.rating = 'PG';
+
+# 16 Affichez les trois films avec le plus d'acteurs
+SELECT f.title, COUNT(fa.actor_id) as "Nombre d'acteurs"
+FROM film f
+         INNER JOIN film_actor fa on f.film_id = fa.film_id
+GROUP BY f.title
+ORDER BY "Nombre d'acteurs" DESC
+LIMIT 3;
